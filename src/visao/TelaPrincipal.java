@@ -279,6 +279,11 @@ private Controle controle = new Controle();
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        jTable1_Tabela = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
         jTable1_Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -504,12 +509,7 @@ private void abrirPdf() {
     }//GEN-LAST:event_jButton1_PDFActionPerformed
 
     private void jTable1_TabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1_TabelaMouseClicked
-        // TODO add your handling code here:
-        boolean click = jTable1_Tabela.isEditing();
-        if(click==false){
-            JOptionPane.showMessageDialog(null, "O campo não pode ser editado.");
-        }
-        
+
         jTextField1_NomeCompleto.setEnabled(false);
         DefaultTableModel table = (DefaultTableModel)jTable1_Tabela.getModel();
         int selecionado = jTable1_Tabela.getSelectedRow();
