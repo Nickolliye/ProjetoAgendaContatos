@@ -4,8 +4,10 @@
  */
 package controle;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelos.Icrud;
 import modelos.Contato;
@@ -13,7 +15,15 @@ import persistencia.ContatoDAO;
 import serviçospdf.MetodosPdf;
 
 public class Controle implements Icrud{
-     private Icrud c = new ContatoDAO();
+     private Icrud c;
+
+    public Controle() {
+         try {
+             this.c = new ContatoDAO();
+         } catch (Exception ex) {
+             Logger.getLogger(Controle.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
     public void Controle(){
     }
     @Override
@@ -57,15 +67,15 @@ public class Controle implements Icrud{
     }
 
    @Override
-    public void excluir(String nome) throws Exception {
+    public void excluir(int id) throws Exception {
         try {
             int resposta = JOptionPane.showConfirmDialog(null, 
-                "Deseja realmente excluir o contato " + nome + "?", 
+                "Tem certeza absoluta que deseja excluir o contato " + id + "?", 
                 "Confirmação de Exclusão", 
                 JOptionPane.YES_NO_OPTION);
             
             if (resposta == JOptionPane.YES_OPTION) {
-                c.excluir(nome);
+                c.excluir(id);
                 JOptionPane.showMessageDialog(null, "Contato excluído com sucesso.");
             } else {
                 JOptionPane.showMessageDialog(null, "Exclusão cancelada.");
@@ -115,7 +125,7 @@ public class Controle implements Icrud{
     }
 
     @Override
-    public ArrayList<Contato> listar() throws Exception {
+    public LinkedList<Contato> listar() throws Exception {
         try {             
             return c.listar();
         } catch (Exception erro) {
@@ -152,7 +162,7 @@ public class Controle implements Icrud{
         if(Integer.toString(objeto.getTelefone().getNumero()).isEmpty()) erro += "Esse campo (telefone) e obrigatorio, nao pode estar vazio.\n";         
         if(objeto.getEndereco().getLogradouro().isEmpty()) erro += "Esse campo (Logradouro) e obrigatorio, nao pode estar vazio.\n";
         if(Integer.toString(objeto.getEndereco().getNumero()).isEmpty()) erro += "Esse campo (Numero) e obrigatorio, nao pode estar vazio.\n";
-        if(Integer.toString(objeto.getEndereco().getCep()).isEmpty()) erro += "Esse campo (Cep) e obrigatorio, nao pode estar vazio.\n";
+        if(objeto.getEndereco().getCep().isEmpty()) erro += "Esse campo (Cep) e obrigatorio, nao pode estar vazio.\n";
         if(objeto.getEndereco().getCidade().isEmpty()) erro += "Esse campo (Cidade) e obrigatorio, nao pode estar vazio.\n";
         if(objeto.getEndereco().getEstado().isEmpty()) erro += "Esse campo (Estado) e obrigatorio, nao pode estar vazio.\n";
         if(!objeto.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) erro += "Esse campo (email) recebeu um email invalido.\n";
@@ -164,5 +174,4 @@ public class Controle implements Icrud{
         if(!numero.matches("[0-9]+")) erro += "Esse campo (numero) somente aceita numeros.\n";
         return erro;
     }
-    
 }

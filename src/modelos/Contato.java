@@ -10,6 +10,7 @@ public class Contato {
     private Telefone telefone = null;
     private String email = "";
     private Endereco endereco = null;
+    private int id ;
 
     public Contato() {
     }
@@ -43,12 +44,18 @@ public class Contato {
     public void setEndereco(Endereco endereco){
         this.endereco = endereco;
     }
+    public int getId() {
+            return id;
+        }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     @Override
     public String toString() {
         return "Contato{" + "nomeCompleto=" + nomeCompleto + ", telefone=" + telefone + ", email=" + email + ", endereco=" + endereco.toString() + '}';
     }
-}
+
     
-
-
+}
